@@ -3,8 +3,32 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Inschrijfformulier – Remindyourlife</title>
+<title>Inschrijfformulier</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<script>
+// ─── URL parameters lezen (vroeg, vóór DOM) ──────────────────
+function getParam(name) {
+  const ownUrl = new URL(window.location.href);
+  if (ownUrl.searchParams.get(name)) return ownUrl.searchParams.get(name);
+  try {
+    const parentUrl = new URL(window.parent.location.href);
+    if (parentUrl.searchParams.get(name)) return parentUrl.searchParams.get(name);
+  } catch(e) {}
+  try {
+    const refUrl = new URL(document.referrer);
+    if (refUrl.searchParams.get(name)) return refUrl.searchParams.get(name);
+  } catch(e) {}
+  return "";
+}
+
+const trainerParam = decodeURIComponent(getParam("trainer") || "Jouw trainer");
+const bedrijfParam  = decodeURIComponent(getParam("bedrijf") || trainerParam);
+const dienstParam   = decodeURIComponent(getParam("dienst")  || "Dienst");
+
+console.log("trainer:", trainerParam, "| bedrijf:", bedrijfParam, "| dienst:", dienstParam);
+</script>
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -51,14 +75,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 36px;
+    margin-bottom: 6px;
   }
 
-  .logo-mark svg {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-  }
+  .logo-mark svg { width: 28px; height: 28px; flex-shrink: 0; }
 
   .logo-text {
     font-family: 'Cormorant Garamond', serif;
@@ -66,10 +86,18 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--earth);
-    text-transform: lowercase;
   }
 
-  .logo-text span { color: var(--moss); }
+  .platform-tag {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 32px;
+    padding-left: 2px;
+  }
+
+  .platform-tag span { color: var(--moss-light); font-weight: 500; }
 
   h1 {
     font-family: 'Cormorant Garamond', serif;
@@ -77,26 +105,15 @@
     font-weight: 300;
     line-height: 1.25;
     color: var(--earth);
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     letter-spacing: 0.01em;
   }
 
-  .subtitle {
-    font-size: 13px;
-    color: var(--bark);
-    line-height: 1.6;
-    margin-bottom: 32px;
-  }
-
-  /* Trainer banner */
   .trainer-banner {
     background: var(--cream);
     border-left: 3px solid var(--moss-light);
     padding: 14px 18px;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    margin-bottom: 20px;
     font-size: 13px;
     color: var(--bark);
   }
@@ -109,7 +126,7 @@
     margin-bottom: 2px;
   }
 
-  .trainer-banner .dienst-badge {
+  .dienst-badge {
     display: inline-block;
     background: var(--moss);
     color: white;
@@ -121,10 +138,39 @@
     margin-top: 4px;
   }
 
-  /* Form */
-  .form-group {
-    margin-bottom: 20px;
+  .uitleg-blok {
+    background: linear-gradient(135deg, #f0ede8 0%, #e8e4dc 100%);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 28px;
+    border-left: 3px solid var(--moss-light);
   }
+
+  .uitleg-blok p {
+    font-size: 14px;
+    color: var(--earth);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .uitleg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .uitleg-list li {
+    font-size: 13px;
+    color: var(--bark);
+    line-height: 1.5;
+    padding-left: 4px;
+  }
+
+  .form-group { margin-bottom: 20px; }
 
   label {
     display: block;
@@ -138,8 +184,6 @@
 
   input[type="text"],
   input[type="email"],
-  input[type="tel"],
-  select,
   textarea {
     width: 100%;
     border: 1px solid var(--stone);
@@ -152,16 +196,10 @@
     background: var(--white);
     outline: none;
     transition: border-color 0.2s;
-    appearance: none;
   }
 
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--moss);
-  }
-
-  input.error, select.error, textarea.error {
-    border-color: var(--error);
-  }
+  input:focus, textarea:focus { border-color: var(--moss); }
+  input.error, textarea.error { border-color: var(--error); }
 
   .field-error {
     font-size: 12px;
@@ -171,15 +209,7 @@
   }
 
   .field-error.show { display: block; }
-
   textarea { resize: vertical; min-height: 80px; }
-
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A7A6A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-  }
 
   .two-col {
     display: grid;
@@ -187,7 +217,6 @@
     gap: 16px;
   }
 
-  /* AVG */
   .avg-block {
     background: var(--cream);
     border: 1px solid var(--stone);
@@ -209,7 +238,6 @@
     font-weight: 500;
   }
 
-  /* Checkbox */
   .checkbox-row {
     display: flex;
     align-items: flex-start;
@@ -227,13 +255,8 @@
     cursor: pointer;
   }
 
-  .checkbox-row span {
-    font-size: 12px;
-    color: var(--bark);
-    line-height: 1.6;
-  }
+  .checkbox-row span { font-size: 12px; color: var(--bark); line-height: 1.6; }
 
-  /* Button */
   .btn {
     width: 100%;
     margin-top: 28px;
@@ -249,14 +272,13 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
-    position: relative;
   }
 
   .btn:hover { background: #4e5d42; }
   .btn:active { transform: scale(0.99); }
   .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-  .btn .spinner {
+  .spinner {
     display: none;
     width: 16px;
     height: 16px;
@@ -269,7 +291,6 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Succes */
   .success-screen {
     display: none;
     text-align: center;
@@ -306,7 +327,6 @@
     margin: 0 auto;
   }
 
-  /* Error banner */
   .api-error {
     display: none;
     background: #FDF2F0;
@@ -319,54 +339,6 @@
     text-align: center;
   }
 
-  .platform-tag {
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--stone);
-    margin-top: -22px;
-    margin-bottom: 32px;
-    padding-left: 2px;
-  }
-
-  .platform-tag span {
-    color: var(--moss-light);
-    font-weight: 500;
-  }
-
-  /* Uitleg blok */
-  .uitleg-blok {
-    background: linear-gradient(135deg, #f0ede8 0%, #e8e4dc 100%);
-    border-radius: var(--radius);
-    padding: 20px 22px;
-    margin-bottom: 28px;
-    border-left: 3px solid var(--moss-light);
-  }
-
-  .uitleg-blok p {
-    font-size: 14px;
-    color: var(--earth);
-    line-height: 1.7;
-    margin-bottom: 12px;
-    font-weight: 400;
-  }
-
-  .uitleg-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
-
-  .uitleg-list li {
-    font-size: 13px;
-    color: var(--bark);
-    line-height: 1.5;
-    padding-left: 4px;
-  }
-
   @media (max-width: 500px) {
     .card { padding: 32px 24px 32px; }
     .two-col { grid-template-columns: 1fr; gap: 0; }
@@ -377,7 +349,6 @@
 
 <div class="card">
 
-  <!-- Logo -->
   <div class="logo-mark">
     <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="14" cy="14" r="13" stroke="#5C6B4E" stroke-width="1.5"/>
@@ -388,20 +359,17 @@
   </div>
   <div class="platform-tag">Boekingen via <span>Remindyourlife</span></div>
 
-  <!-- Form view -->
   <div id="formView">
-    <h1 id="introTitel">Je bent uitgenodigd</h1>
+    <h1>Je bent uitgenodigd</h1>
 
-    <!-- Trainer banner (dynamisch ingevuld) -->
-    <div class="trainer-banner" id="trainerBanner">
+    <div class="trainer-banner">
       <div>
         <strong id="trainerNaamLabel">—</strong>
-        <span id="bannerTussentekst">nodigt jou uit voor</span>
+        <span>nodigt jou uit voor</span>
         <span class="dienst-badge" id="dienstBadge">—</span>
       </div>
     </div>
 
-    <!-- Uitleg blok -->
     <div class="uitleg-blok">
       <p id="uitlegTekst"></p>
       <ul class="uitleg-list">
@@ -413,7 +381,6 @@
 
     <form id="inschrijfForm" novalidate>
 
-      <!-- Hidden velden -->
       <input type="hidden" id="trainerNaam" name="trainer"/>
       <input type="hidden" id="dienstNaam" name="dienst"/>
 
@@ -441,15 +408,14 @@
         <textarea id="opmerking" name="opmerking" placeholder="Bijv. blessures, wensen of vragen voor je trainer…"></textarea>
       </div>
 
-      <!-- AVG tekst -->
       <div class="avg-block">
         <strong>🔒 Privacy &amp; gegevensverwerking</strong>
-        Jouw persoonsgegevens worden uitsluitend gebruikt voor het beheer van jouw inschrijving en de begeleiding door jouw trainer. De lessen vinden plaats op een locatie die gebruik maakt van het boekingsplatform Remindyourlife voor planning en administratie. Jouw gegevens worden niet gedeeld met derden zonder jouw toestemming, en worden bewaard conform de AVG (Algemene Verordening Gegevensbescherming). Je hebt te allen tijde het recht op inzage, correctie of verwijdering van jouw gegevens via <a href="/cdn-cgi/l/email-protection#5c35323a331c2e39313532382533292e30353a39723230" style="color:var(--moss)"><span class="__cf_email__" data-cfemail="aec7c0c8c1eedccbc3c7c0cad7c1dbdcc2c7c8cb80c0c2">[email&#160;protected]</span></a>.
+        Jouw persoonsgegevens worden uitsluitend gebruikt voor het beheer van jouw inschrijving en de begeleiding door jouw trainer. De lessen vinden plaats op een locatie die gebruik maakt van het boekingsplatform Remindyourlife voor planning en administratie. Jouw gegevens worden niet gedeeld met derden zonder jouw toestemming, en worden bewaard conform de AVG. Je hebt te allen tijde het recht op inzage, correctie of verwijdering van jouw gegevens via <a href="mailto:info@remindyourlife.nl" style="color:var(--moss)">info@remindyourlife.nl</a>.
       </div>
 
       <label class="checkbox-row">
         <input type="checkbox" id="avg" name="avg"/>
-        <span>Ik ga akkoord met de verwerking van mijn persoonsgegevens door Remindyourlife zoals hierboven omschreven. *</span>
+        <span>Ik ga akkoord met de verwerking van mijn persoonsgegevens zoals hierboven omschreven. *</span>
       </label>
       <div class="field-error" id="err-avg">Geef toestemming om door te gaan</div>
 
@@ -458,12 +424,11 @@
         <div class="spinner" id="btnSpinner"></div>
       </button>
 
-      <div class="api-error" id="apiError">Er ging iets mis. Probeer het opnieuw of neem contact op via <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c7aea9a1a887b5a2aaaea9a3bea8b2b5abaea1a2e9a9ab">[email&#160;protected]</a></div>
+      <div class="api-error" id="apiError">Er ging iets mis. Probeer het opnieuw of neem contact op via info@remindyourlife.nl</div>
 
     </form>
   </div>
 
-  <!-- Succes view -->
   <div class="success-screen" id="successScreen">
     <div class="success-icon">
       <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -471,85 +436,52 @@
       </svg>
     </div>
     <h2>Je bent ingeschreven</h2>
-    <p id="successTekst">Jouw trainer neemt binnenkort contact met je op. Kijk ook even in je spam als je geen bevestiging ontvangt.</p>
+    <p id="successTekst">Jouw trainer neemt binnenkort contact met je op.</p>
   </div>
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ─── Configuratie ────────────────────────────────────────────
 const CONFIG = {
-  // Jouw e-mailadres voor de notificatie (via Formspree of eigen backend)
-  // Vervang dit met je eigen Formspree endpoint: https://formspree.io/
   formspreeEndpoint: "https://formspree.io/f/mzdkzbjw",
-
-  // Virtuagym API (vul in zodra je de sleutel hebt)
-  virtuagymApiKey: "",         // <- jouw API key
-  virtuagymClubSecret: "",     // <- jouw club secret
-  autoInviteVirtuagym: false,  // zet op true zodra API gereed is
+  virtuagymApiKey: "",
+  virtuagymClubSecret: "",
+  autoInviteVirtuagym: false,
 };
 
-// ─── DEBUG (tijdelijk) ───────────────────────────────────────
-console.log('Volledige URL:', window.location.href);
-console.log('Search params:', window.location.search);
+// ─── DOM invullen na laden ────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function() {
 
-// ─── URL parameters lezen (Wix iframe compatibel) ───────────
-function getParam(name) {
-  // Probeer eerst de eigen URL (werkt buiten Wix)
-  const ownUrl = new URL(window.location.href);
-  if (ownUrl.searchParams.get(name)) return ownUrl.searchParams.get(name);
+  document.getElementById("bedrijfLogoTekst").textContent = bedrijfParam;
+  document.getElementById("trainerNaamLabel").textContent = trainerParam;
+  document.getElementById("dienstBadge").textContent      = dienstParam;
+  document.getElementById("trainerNaam").value            = trainerParam;
+  document.getElementById("dienstNaam").value             = dienstParam;
 
-  // Fallback: lees uit de parent window URL (nodig in Wix iframe)
-  try {
-    const parentUrl = new URL(window.parent.location.href);
-    if (parentUrl.searchParams.get(name)) return parentUrl.searchParams.get(name);
-  } catch(e) {}
+  const dienstLower = dienstParam.toLowerCase();
+  let uitlegTekst = "";
 
-  // Fallback: lees uit document.referrer
-  try {
-    const refUrl = new URL(document.referrer);
-    if (refUrl.searchParams.get(name)) return refUrl.searchParams.get(name);
-  } catch(e) {}
+  if (dienstLower.includes("groepsles") || dienstLower.includes("groep")) {
+    uitlegTekst = `<strong>${trainerParam}</strong> van <strong>${bedrijfParam}</strong> heeft jou persoonlijk uitgenodigd voor <em>${dienstParam}</em>. In een groepsles werk je samen met anderen aan jouw beweging en welzijn — onder begeleiding van jouw eigen trainer. Met dit formulier reserveer je jouw plek en wordt jouw profiel aangemaakt in het boekingssysteem.`;
+  } else if (dienstLower.includes("personal") || dienstLower.includes("pt")) {
+    uitlegTekst = `<strong>${trainerParam}</strong> van <strong>${bedrijfParam}</strong> heeft jou persoonlijk uitgenodigd voor <em>${dienstParam}</em>. Bij Personal Training werk je één-op-één aan jouw persoonlijke doelen, op jouw tempo en aansluitend bij jouw lichaam. Met dit formulier maak je jouw inschrijving officieel en word je direct gekoppeld aan jouw trainer.`;
+  } else {
+    uitlegTekst = `<strong>${trainerParam}</strong> van <strong>${bedrijfParam}</strong> heeft jou uitgenodigd voor <em>${dienstParam}</em>. Via dit formulier schrijf je je officieel in. Na ontvangst word je direct toegevoegd aan het systeem en neemt jouw trainer contact met je op om alles verder in te plannen.`;
+  }
 
-  return "";
-}
-
-const trainerParam = decodeURIComponent(getParam("trainer") || "Jouw trainer");
-const bedrijfParam  = decodeURIComponent(getParam("bedrijf")  || trainerParam);
-const dienstParam  = decodeURIComponent(getParam("dienst")  || "Dienst");
-
-// Banner invullen
-document.getElementById("trainerNaamLabel").textContent = trainerParam;
-document.getElementById("bedrijfLogoTekst").textContent    = bedrijfParam;
-document.getElementById("dienstBadge").textContent      = dienstParam;
-document.getElementById("trainerNaam").value            = trainerParam;
-
-// Dynamische uitlegtekst op basis van dienst
-const dienstLower = dienstParam.toLowerCase();
-let uitlegTekst = "";
-
-if (dienstLower.includes("groepsles") || dienstLower.includes("groep")) {
-  uitlegTekst = `<strong>${trainerParam}</strong> van <strong>${bedrijfParam}</strong> heeft jou persoonlijk uitgenodigd voor <em>${dienstParam}</em>. In een groepsles werk je samen met anderen aan jouw beweging en welzijn — onder begeleiding van jouw eigen trainer. Met dit formulier reserveer je jouw plek en wordt jouw profiel aangemaakt in het boekingssysteem.`;
-} else if (dienstLower.includes("personal") || dienstLower.includes("pt")) {
-  uitlegTekst = `<strong>${trainerParam}</strong> van <strong>${bedrijfParam}</strong> heeft jou persoonlijk uitgenodigd voor <em>${dienstParam}</em>. Bij Personal Training werk je één-op-één aan jouw persoonlijke doelen, op jouw tempo en aansluitend bij jouw lichaam. Met dit formulier maak je jouw inschrijving officieel en word je direct gekoppeld aan jouw trainer.`;
-} else {
-  uitlegTekst = `<strong>${trainerParam}</strong> van <strong>${bedrijfParam}</strong> heeft jou uitgenodigd voor <em>${dienstParam}</em>. Via dit formulier schrijf je je officieel in. Na ontvangst word je direct toegevoegd aan het systeem en neemt jouw trainer contact met je op om alles verder in te plannen.`;
-}
-
-document.getElementById("uitlegTekst").innerHTML = uitlegTekst;
-document.getElementById("successTekst").textContent = `Welkom! ${trainerParam} neemt binnenkort contact met je op. Kijk ook even in je spam als je geen bevestiging ontvangt.`;
-document.getElementById("dienstNaam").value             = dienstParam;
+  document.getElementById("uitlegTekst").innerHTML = uitlegTekst;
+  document.getElementById("successTekst").textContent = `Welkom! ${trainerParam} neemt binnenkort contact met je op. Kijk ook even in je spam als je geen bevestiging ontvangt.`;
+});
 
 // ─── Validatie ───────────────────────────────────────────────
 function validate() {
   let ok = true;
-
   const fields = [
     { id: "voornaam",   errId: "err-voornaam",   check: v => v.trim().length > 0 },
     { id: "achternaam", errId: "err-achternaam", check: v => v.trim().length > 0 },
     { id: "email",      errId: "err-email",      check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
   ];
-
   fields.forEach(({ id, errId, check }) => {
     const el  = document.getElementById(id);
     const err = document.getElementById(errId);
@@ -562,20 +494,14 @@ function validate() {
       err.classList.remove("show");
     }
   });
-
   const avg    = document.getElementById("avg");
   const errAvg = document.getElementById("err-avg");
-  if (!avg.checked) {
-    errAvg.classList.add("show");
-    ok = false;
-  } else {
-    errAvg.classList.remove("show");
-  }
-
+  if (!avg.checked) { errAvg.classList.add("show"); ok = false; }
+  else { errAvg.classList.remove("show"); }
   return ok;
 }
 
-// ─── Formulier submit ────────────────────────────────────────
+// ─── Submit ──────────────────────────────────────────────────
 document.getElementById("inschrijfForm").addEventListener("submit", async function(e) {
   e.preventDefault();
   if (!validate()) return;
@@ -585,70 +511,49 @@ document.getElementById("inschrijfForm").addEventListener("submit", async functi
   const spinner = document.getElementById("btnSpinner");
   const apiErr  = document.getElementById("apiError");
 
-  btn.disabled      = true;
+  btn.disabled          = true;
   btnText.style.display = "none";
   spinner.style.display = "block";
   apiErr.style.display  = "none";
 
   const data = {
-    trainer:       document.getElementById("trainerNaam").value,
-    dienst:        document.getElementById("dienstNaam").value,
-    voornaam:      document.getElementById("voornaam").value.trim(),
-    achternaam:    document.getElementById("achternaam").value.trim(),
-    email:         document.getElementById("email").value.trim(),
-    opmerking:     document.getElementById("opmerking").value.trim(),
+    trainer:    document.getElementById("trainerNaam").value,
+    dienst:     document.getElementById("dienstNaam").value,
+    voornaam:   document.getElementById("voornaam").value.trim(),
+    achternaam: document.getElementById("achternaam").value.trim(),
+    email:      document.getElementById("email").value.trim(),
+    opmerking:  document.getElementById("opmerking").value.trim(),
   };
 
   try {
-    // ── Stap 1: E-mail notificatie via Formspree ──
     const mailRes = await fetch(CONFIG.formspreeEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({
         _subject: `[Remindyourlife] Nieuwe inschrijving – ${data.voornaam} ${data.achternaam} bij ${data.trainer}`,
-        Trainer:       data.trainer,
-        Dienst:        data.dienst,
-        Voornaam:      data.voornaam,
-        Achternaam:    data.achternaam,
-        Email:         data.email,
-        Opmerking:     data.opmerking || "—",
-        _replyto:      data.email,
+        Trainer:    data.trainer,
+        Dienst:     data.dienst,
+        Voornaam:   data.voornaam,
+        Achternaam: data.achternaam,
+        Email:      data.email,
+        Opmerking:  data.opmerking || "—",
+        _replyto:   data.email,
       }),
     });
 
     if (!mailRes.ok) throw new Error("Formspree mislukt");
 
-    // ── Stap 2: Virtuagym API (activeren zodra sleutel beschikbaar) ──
-    if (CONFIG.autoInviteVirtuagym && CONFIG.virtuagymApiKey) {
-      await registerInVirtuagym(data);
-    }
-
-    // ── Succes ──
-    document.getElementById("formView").style.display    = "none";
+    document.getElementById("formView").style.display     = "none";
     document.getElementById("successScreen").style.display = "block";
 
   } catch (err) {
     console.error(err);
-    apiErr.style.display = "block";
+    apiErr.style.display  = "block";
     btn.disabled          = false;
     btnText.style.display = "block";
     spinner.style.display = "none";
   }
 });
-
-// ─── Virtuagym registratie (placeholder) ────────────────────
-async function registerInVirtuagym(data) {
-  // Documentatie: https://virtuagym.com/api
-  // Endpoint voor client aanmaken: POST /api/v1/club/{club_id}/client
-  // Vul aan zodra je de API documentatie hebt ontvangen van Virtuagym
-
-  const payload = {
-    first_name: data.voornaam,
-    last_name:  data.achternaam,
-    email:      data.email,
-    // Koppeling met trainer en dienst: afhankelijk van Virtuagym API structuur
-  };
-
-  const res = await fetch(`https://virtuagym.com/api/v0/club/YOUR_CLUB_ID/member`, {
-    method: "POST",
-   
+</script>
+</body>
+</html>
