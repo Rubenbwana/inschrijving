@@ -2,6 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8" />
+<meta name="cf-2fa-verify" content="disabled"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Inschrijfformulier</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -26,7 +27,6 @@ const trainerParam = decodeURIComponent(getParam("trainer") || "Jouw trainer");
 const bedrijfParam  = decodeURIComponent(getParam("bedrijf") || trainerParam);
 const dienstParam   = decodeURIComponent(getParam("dienst")  || "Dienst");
 
-console.log("trainer:", trainerParam, "| bedrijf:", bedrijfParam, "| dienst:", dienstParam);
 </script>
 
 <style>
@@ -344,6 +344,7 @@ console.log("trainer:", trainerParam, "| bedrijf:", bedrijfParam, "| dienst:", d
     .two-col { grid-template-columns: 1fr; gap: 0; }
   }
 </style>
+<!-- cloudflare email obfuscation: off -->
 </head>
 <body>
 
@@ -410,7 +411,7 @@ console.log("trainer:", trainerParam, "| bedrijf:", bedrijfParam, "| dienst:", d
 
       <div class="avg-block">
         <strong>🔒 Privacy &amp; gegevensverwerking</strong>
-        Jouw persoonsgegevens worden uitsluitend gebruikt voor het beheer van jouw inschrijving en de begeleiding door jouw trainer. De lessen vinden plaats op een locatie die gebruik maakt van het boekingsplatform Remindyourlife voor planning en administratie. Jouw gegevens worden niet gedeeld met derden zonder jouw toestemming, en worden bewaard conform de AVG. Je hebt te allen tijde het recht op inzage, correctie of verwijdering van jouw gegevens via <a href="mailto:info&#64;remindyourlife.nl" style="color:var(--moss)">info&#64;remindyourlife.nl</a>.
+        Jouw persoonsgegevens worden uitsluitend gebruikt voor het beheer van jouw inschrijving en de begeleiding door jouw trainer. De lessen vinden plaats op een locatie die gebruik maakt van het boekingsplatform Remindyourlife voor planning en administratie. Jouw gegevens worden niet gedeeld met derden zonder jouw toestemming, en worden bewaard conform de AVG. Je hebt te allen tijde het recht op inzage, correctie of verwijdering van jouw gegevens via <a href="/cdn-cgi/l/email-protection#5b32353d347d786d6f60293e3632353f22342e2937323d3e753537" style="color:var(--moss)">info&#64;remindyourlife.nl</a>.
       </div>
 
       <label class="checkbox-row">
@@ -424,7 +425,7 @@ console.log("trainer:", trainerParam, "| bedrijf:", bedrijfParam, "| dienst:", d
         <div class="spinner" id="btnSpinner"></div>
       </button>
 
-      <div class="api-error" id="apiError">Er ging iets mis. Probeer het opnieuw of neem contact op via info@remindyourlife.nl</div>
+      <div class="api-error" id="apiError">Er ging iets mis. Probeer het opnieuw of neem contact op via <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="650c0b030a251700080c0b011c0a1017090c03004b0b09">[email&#160;protected]</a></div>
 
     </form>
   </div>
@@ -441,7 +442,7 @@ console.log("trainer:", trainerParam, "| bedrijf:", bedrijfParam, "| dienst:", d
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─── Configuratie ────────────────────────────────────────────
 const CONFIG = {
   formspreeEndpoint: "https://formspree.io/f/mzdkzbjw",
@@ -544,16 +545,4 @@ document.getElementById("inschrijfForm").addEventListener("submit", async functi
     if (!mailRes.ok) throw new Error("Formspree mislukt");
 
     document.getElementById("formView").style.display     = "none";
-    document.getElementById("successScreen").style.display = "block";
-
-  } catch (err) {
-    console.error(err);
-    apiErr.style.display  = "block";
-    btn.disabled          = false;
-    btnText.style.display = "block";
-    spinner.style.display = "none";
-  }
-});
-</script>
-</body>
-</html>
+    docume
