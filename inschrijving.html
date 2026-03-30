@@ -445,8 +445,8 @@ const dienstParam   = decodeURIComponent(getParam("dienst")  || "Dienst");
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─── Configuratie ────────────────────────────────────────────
 const CONFIG = {
-  formspreeEndpoint: "https://formspree.io/f/mzdkzbjw",
-  virtuagymApiKey: "tbQGkEMAHolUOMrsJ3RPr6AKqgEYkiNeh1OSE6c7G3",
+  makeWebhook: "https://hook.eu1.make.com/yc8d64cqaqa5uydc2exi6k9xvo5ittla",
+ virtuagymApiKey: "tbQGkEMAHolUOMrsJ3RPr6AKqgEYkiNeh1OSE6c7G3",
   virtuagymClubSecret: "CS-99722-ACCESS-cAQEHlPZYpajSwvPH6PyrwswW",
   virtuagymClubId: "Remind",
   autoInviteVirtuagym: false,
@@ -528,22 +528,20 @@ document.getElementById("inschrijfForm").addEventListener("submit", async functi
   };
 
   try {
-    const mailRes = await fetch(CONFIG.formspreeEndpoint, {
+    const mailRes = await fetch(CONFIG.makeWebhook, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        _subject: `[Remindyourlife] Nieuwe inschrijving – ${data.voornaam} ${data.achternaam} bij ${data.trainer}`,
-        Trainer:    data.trainer,
-        Dienst:     data.dienst,
-        Voornaam:   data.voornaam,
-        Achternaam: data.achternaam,
-        Email:      data.email,
-        Opmerking:  data.opmerking || "—",
-        _replyto:   data.email,
+        trainer:    data.trainer,
+        dienst:     data.dienst,
+        voornaam:   data.voornaam,
+        achternaam: data.achternaam,
+        email:      data.email,
+        opmerking:  data.opmerking || "",
       }),
     });
 
-    if (!mailRes.ok) throw new Error("Formspree mislukt");
+    if (!mailRes.ok) throw new Error("Make.com webhook mislukt");
 
     document.getElementById("formView").style.display     = "none";
     docume
