@@ -345,104 +345,8 @@ const dienstParam   = decodeURIComponent(getParam("dienst")  || "Dienst");
   }
 </style>
 <!-- cloudflare email obfuscation: off -->
-</head>
-<body>
 
-<div class="card">
-
-  <div class="logo-mark">
-    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="14" cy="14" r="13" stroke="#5C6B4E" stroke-width="1.5"/>
-      <circle cx="14" cy="14" r="5" fill="#5C6B4E" opacity="0.3"/>
-      <circle cx="14" cy="14" r="2" fill="#5C6B4E"/>
-    </svg>
-    <span class="logo-text" id="bedrijfLogoTekst">—</span>
-  </div>
-  <div class="platform-tag">Boekingen via <span>Remindyourlife</span></div>
-
-  <div id="formView">
-    <h1>Je bent uitgenodigd</h1>
-
-    <div class="trainer-banner">
-      <div>
-        <strong id="trainerNaamLabel">—</strong>
-        <span>nodigt jou uit voor</span>
-        <span class="dienst-badge" id="dienstBadge">—</span>
-      </div>
-    </div>
-
-    <div class="uitleg-blok">
-      <p id="uitlegTekst"></p>
-      <ul class="uitleg-list">
-        <li>✦ Na inschrijving word je toegevoegd aan het boekingssysteem van jouw trainer</li>
-        <li>✦ Je trainer plant je eerste sessie in en neemt contact met je op</li>
-        <li>✦ Lessen en afspraken kun je daarna eenvoudig inzien en beheren via het platform van jouw trainer</li>
-      </ul>
-    </div>
-
-    <form id="inschrijfForm" novalidate>
-
-      <input type="hidden" id="trainerNaam" name="trainer"/>
-      <input type="hidden" id="dienstNaam" name="dienst"/>
-
-      <div class="two-col">
-        <div class="form-group">
-          <label for="voornaam">Voornaam *</label>
-          <input type="text" id="voornaam" name="voornaam" placeholder="Jana" autocomplete="given-name"/>
-          <div class="field-error" id="err-voornaam">Vul je voornaam in</div>
-        </div>
-        <div class="form-group">
-          <label for="achternaam">Achternaam *</label>
-          <input type="text" id="achternaam" name="achternaam" placeholder="de Vries" autocomplete="family-name"/>
-          <div class="field-error" id="err-achternaam">Vul je achternaam in</div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="email">E-mailadres *</label>
-        <input type="email" id="email" name="email" placeholder="jana@email.nl" autocomplete="email"/>
-        <div class="field-error" id="err-email">Vul een geldig e-mailadres in</div>
-      </div>
-
-      <div class="form-group">
-        <label for="opmerking">Opmerking <span style="font-size:11px;text-transform:none;letter-spacing:0">(optioneel)</span></label>
-        <textarea id="opmerking" name="opmerking" placeholder="Bijv. blessures, wensen of vragen voor je trainer…"></textarea>
-      </div>
-
-      <div class="avg-block">
-        <strong>🔒 Privacy &amp; gegevensverwerking</strong>
-        Jouw persoonsgegevens worden uitsluitend gebruikt voor het beheer van jouw inschrijving en de begeleiding door jouw trainer. De lessen vinden plaats op een locatie die gebruik maakt van het boekingsplatform Remindyourlife voor planning en administratie. Jouw gegevens worden niet gedeeld met derden zonder jouw toestemming, en worden bewaard conform de AVG. Je hebt te allen tijde het recht op inzage, correctie of verwijdering van jouw gegevens door contact op te nemen via remindyourlife.nl.
-      </div>
-
-      <label class="checkbox-row">
-        <input type="checkbox" id="avg" name="avg"/>
-        <span>Ik ga akkoord met de verwerking van mijn persoonsgegevens zoals hierboven omschreven. *</span>
-      </label>
-      <div class="field-error" id="err-avg">Geef toestemming om door te gaan</div>
-
-      <button type="submit" class="btn" id="submitBtn">
-        <span id="btnText">Inschrijving bevestigen</span>
-        <div class="spinner" id="btnSpinner"></div>
-      </button>
-
-      <div class="api-error" id="apiError">Er ging iets mis. Probeer het opnieuw of neem contact op via <a href="https://remindyourlife.nl/contact" style="color:var(--moss)">ons contactformulier</a></div>
-
-    </form>
-  </div>
-
-  <div class="success-screen" id="successScreen">
-    <div class="success-icon">
-      <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 13l5.5 5.5L21 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <h2>Je bent ingeschreven</h2>
-    <p id="successTekst">Jouw trainer neemt binnenkort contact met je op.</p>
-  </div>
-
-</div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script defer>
 // ─── Configuratie ────────────────────────────────────────────
 const CONFIG = {
   makeWebhook: "https://hook.eu1.make.com/yc8d64cqaqa5uydc2exi6k9xvo5ittla",
@@ -544,3 +448,102 @@ document.getElementById("inschrijfForm").addEventListener("submit", async functi
 
     document.getElementById("formView").style.display     = "none";
     docume
+</head>
+<body>
+
+<div class="card">
+
+  <div class="logo-mark">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="13" stroke="#5C6B4E" stroke-width="1.5"/>
+      <circle cx="14" cy="14" r="5" fill="#5C6B4E" opacity="0.3"/>
+      <circle cx="14" cy="14" r="2" fill="#5C6B4E"/>
+    </svg>
+    <span class="logo-text" id="bedrijfLogoTekst">—</span>
+  </div>
+  <div class="platform-tag">Boekingen via <span>Remindyourlife</span></div>
+
+  <div id="formView">
+    <h1>Je bent uitgenodigd</h1>
+
+    <div class="trainer-banner">
+      <div>
+        <strong id="trainerNaamLabel">—</strong>
+        <span>nodigt jou uit voor</span>
+        <span class="dienst-badge" id="dienstBadge">—</span>
+      </div>
+    </div>
+
+    <div class="uitleg-blok">
+      <p id="uitlegTekst"></p>
+      <ul class="uitleg-list">
+        <li>✦ Na inschrijving word je toegevoegd aan het boekingssysteem van jouw trainer</li>
+        <li>✦ Je trainer plant je eerste sessie in en neemt contact met je op</li>
+        <li>✦ Lessen en afspraken kun je daarna eenvoudig inzien en beheren via het platform van jouw trainer</li>
+      </ul>
+    </div>
+
+    <form id="inschrijfForm" novalidate>
+
+      <input type="hidden" id="trainerNaam" name="trainer"/>
+      <input type="hidden" id="dienstNaam" name="dienst"/>
+
+      <div class="two-col">
+        <div class="form-group">
+          <label for="voornaam">Voornaam *</label>
+          <input type="text" id="voornaam" name="voornaam" placeholder="Jana" autocomplete="given-name"/>
+          <div class="field-error" id="err-voornaam">Vul je voornaam in</div>
+        </div>
+        <div class="form-group">
+          <label for="achternaam">Achternaam *</label>
+          <input type="text" id="achternaam" name="achternaam" placeholder="de Vries" autocomplete="family-name"/>
+          <div class="field-error" id="err-achternaam">Vul je achternaam in</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mailadres *</label>
+        <input type="email" id="email" name="email" placeholder="jana@email.nl" autocomplete="email"/>
+        <div class="field-error" id="err-email">Vul een geldig e-mailadres in</div>
+      </div>
+
+      <div class="form-group">
+        <label for="opmerking">Opmerking <span style="font-size:11px;text-transform:none;letter-spacing:0">(optioneel)</span></label>
+        <textarea id="opmerking" name="opmerking" placeholder="Bijv. blessures, wensen of vragen voor je trainer…"></textarea>
+      </div>
+
+      <div class="avg-block">
+        <strong>🔒 Privacy &amp; gegevensverwerking</strong>
+        Jouw persoonsgegevens worden uitsluitend gebruikt voor het beheer van jouw inschrijving en de begeleiding door jouw trainer. De lessen vinden plaats op een locatie die gebruik maakt van het boekingsplatform Remindyourlife voor planning en administratie. Jouw gegevens worden niet gedeeld met derden zonder jouw toestemming, en worden bewaard conform de AVG. Je hebt te allen tijde het recht op inzage, correctie of verwijdering van jouw gegevens door contact op te nemen via remindyourlife.nl.
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="avg" name="avg"/>
+        <span>Ik ga akkoord met de verwerking van mijn persoonsgegevens zoals hierboven omschreven. *</span>
+      </label>
+      <div class="field-error" id="err-avg">Geef toestemming om door te gaan</div>
+
+      <button type="submit" class="btn" id="submitBtn">
+        <span id="btnText">Inschrijving bevestigen</span>
+        <div class="spinner" id="btnSpinner"></div>
+      </button>
+
+      <div class="api-error" id="apiError">Er ging iets mis. Probeer het opnieuw of neem contact op via <a href="https://remindyourlife.nl/contact" style="color:var(--moss)">ons contactformulier</a></div>
+
+    </form>
+  </div>
+
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">
+      <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 13l5.5 5.5L21 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Je bent ingeschreven</h2>
+    <p id="successTekst">Jouw trainer neemt binnenkort contact met je op.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
